@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th colspan="4" class="text-center"
+                style="background-color: black; color: white;font-size: 30px;font-family: 'Times New Roman', Times, serif;">
+                User Detail</th>
+        </tr>
+        <tr>
+            <th>Sno</th>
+            <th>UserId</th>
+            <th>Full Name</th>
+            <th>Department Name</th>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://localhost:65479/api/GetUserInfo",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                // Iterate through the data and append rows to the table
+                $.each(data, function (index, user) {
+                    $('table').append('<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + user.UserId + '</td>' +
+                        '<td>' + user.FullName + '</td>' +
+                        '<td>' + user.DepartmentName + '</td>' +
+                        '</tr>');
+                });
+            },
+            error: function (error) {
+                console.log("Error fetching data: " + error);
+            }
+        });
+    });
+</script>
