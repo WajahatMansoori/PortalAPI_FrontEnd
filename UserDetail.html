@@ -6,13 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
@@ -22,12 +15,8 @@
 
     <link rel="stylesheet" href="D:\Work\JavaScript Project\css\mdb.rtl.min.css">
     <link rel="stylesheet" href="D:\Work\JavaScript Project\css\mdb.min.css">
-    <!-- <script src="D:\Work\JavaScript Project\js\mdb.es.min.js"></script> -->
-
 
     <style>
-        /* Existing styles here */
-
         .modal {
             display: none;
             position: fixed;
@@ -43,10 +32,10 @@
 
         .modal-content {
             background: #fff;
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
             max-width: 400px;
             width: 100%;
         }
@@ -58,27 +47,23 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-size: 16px;
-            color: #555;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
         }
 
         input,
         select {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
-            background-color: #f8f8f8;
-            /* Light background color */
         }
 
-        /* Style the submit button */
         button {
-            background-color: #ff4d4d;
-            /* Red color */
+            background-color: #3498db;
             color: #fff;
             padding: 12px 20px;
             border: none;
@@ -89,8 +74,7 @@
         }
 
         button:hover {
-            background-color: #cc0000;
-            /* Darker red on hover */
+            background-color: #2980b9;
         }
 
         .close {
@@ -99,19 +83,14 @@
             right: 10px;
             font-size: 24px;
             cursor: pointer;
-            color: #ff0000;
-            /* Red color */
+            color: #333;
             transition: color 0.3s ease;
-            font-weight: bold;
-            /* Make it bold */
         }
 
         .close:hover {
-            color: #cc0000;
-            /* Darker red on hover */
+            color: #555;
         }
 
-        /* Add a subtle box-shadow for depth */
         .close::before,
         .close::after {
             content: '';
@@ -120,8 +99,7 @@
             left: 50%;
             width: 20px;
             height: 2px;
-            background-color: #ff0000;
-            /* Red color */
+            background-color: #333;
             transform: translate(-50%, -50%) rotate(45deg);
         }
 
@@ -129,6 +107,8 @@
             transform: translate(-50%, -50%) rotate(-45deg);
         }
     </style>
+
+
 </head>
 
 
@@ -137,19 +117,23 @@
 
     <table class="table table-striped">
         <tr>
-            <th colspan="4" class="text-center"
+            <th colspan="5" class="text-center"
                 style="background-color: black; color: white;font-size: 30px;font-family: 'Times New Roman', Times, serif;">
                 User Detail
             </th>
         </tr>
         <tr>
             <td><button onclick="openModal()">Add User</button></td>
+            <td><!-- Add this input field where you want the search bar -->
+                <input type="text" id="searchInput" placeholder="Search by Full Name">
+                </td>
         </tr>
         <tr>
             <th style="color: blue; font-weight: bold;font-size: 15px;">Sno</th>
             <th style="color: blue; font-weight: bold; font-size: 15px;">UserId</th>
             <th style="color: blue; font-weight: bold; font-size: 15px;">Full Name</th>
             <th style="color: blue; font-weight: bold; font-size: 15px;">Department Name</th>
+            <th style="color: blue; font-weight: bold; font-size: 15px;">Action</th>
         </tr>
     </table>
 
@@ -157,7 +141,7 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span onclick="closeModal()" class="close">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
             <h2>Enter Information</h2>
             <form>
                 <div class="form-group">
@@ -176,10 +160,13 @@
                         <option value="46">User Interface</option>
                     </select>
                 </div>
-                <button type="button" onclick="submitForm()">Submit</button>
+                <button id="modalSubmitBtn" type="button" onclick="submitForm()">Submit</button>
             </form>
         </div>
     </div>
+
+
+
 </body>
 
 </html>
@@ -206,7 +193,7 @@
     }
 
     // Function to handle form submission (you can add your logic here)
-    
+
 </script>
 
 
@@ -218,7 +205,7 @@
 </script>
 
 <script>
-    function GetUserDetails(){
+    function GetUserDetails() {
         $.ajax({
             url: "http://localhost:65479/api/GetUserInfo",
             type: "GET",
@@ -231,6 +218,8 @@
                         '<td>' + user.UserId + '</td>' +
                         '<td>' + user.FullName + '</td>' +
                         '<td>' + user.DepartmentName + '</td>' +
+                        '<td><button onclick="editUser(' + user.UserId + ')">Edit</button> | <button onclick="deleteUser(' + user.UserId + ')">Delete</button></td>' +
+
                         '</tr>');
                 });
             },
@@ -261,33 +250,78 @@
             data: JSON.stringify(formData),
             success: function (response) {
                 console.log("User added successfully!");
-                // Optionally, you can close the modal or perform other actions after a successful submission
-                $.each(response, function (index, newUser) {
-                    // Add the new record to the table
-                    $('table').append('<tr>' +
-                        '<td>' + (newUser.Sno) + '</td>' +
-                        '<td>' + newUser.UserId + '</td>' +
-                        '<td>' + newUser.FullName + '</td>' +
-                        '<td>' + newUser.DepartmentName + '</td>' +
-                        '</tr>');
-                });
+                location.reload();
                 closeModal();
-
-                // console.log("Data=>",response);
-
-                // $('table').append('<tr>' +
-                //     '<td>' + (response.Sno) + '</td>' +
-                //     '<td>' + response.UserId + '</td>' +
-                //     '<td>' + response.FullName + '</td>' +
-                //     '<td>' + response.DepartmentName + '</td>' +
-                //     '</tr>');
             },
             error: function (error) {
                 console.log("Error adding user: " + JSON.stringify(error));
             }
         });
     }
-        
-    
+
+    function editUser(userId) {
+        // Make AJAX call to the Edit API with the provided userId
+        $.ajax({
+            url: "http://localhost:65479/api/GetUserDetailsByUserId/" + userId,
+            type: "GET",
+            dataType: "json",
+            success: function (userData) {
+                // Populate the modal form fields with the user data
+                console.log("edit data ==>", userData);
+                $('#fullName').val(userData[0].FullName);
+                $('#userLoginId').val(userData[0].UserLoginId);
+                $('#department').val(userData[0].DeptId);
+
+                // Open the modal form
+                openModal();
+            },
+            error: function (error) {
+                console.log("Error fetching user data for edit: " + error);
+            }
+        });
+    }
+
+    function deleteUser(userId) {
+        // Make AJAX call to the Delete API with the provided userId
+        $.ajax({
+            url: "http://localhost:65479/api/DeleteUserByUserId/" + userId,
+            type: "GET", // or "POST" depending on your API
+            success: function () {
+                location.reload()
+                // Remove the corresponding row from the table
+                //$('#userRow_' + userId).remove();
+                //toastr.success('User deleted successfully!');
+            },
+            error: function (error) {
+                toastr.error('Error deleting user: ' + error.responseJSON.message);
+            }
+        });
+    }
+
 </script>
+
+<script>
+    // ... Your existing code ...
+
+    // Add this function to handle search
+    $('#searchInput').on('keyup', function () {
+        var query = $(this).val().toLowerCase();
+
+        // Loop through each row in the table (starting from the second row)
+        $('table tr:gt(1)').each(function () { //gt(1) excludes the header row
+            var fullName = $(this).find('td:eq(2)').text().toLowerCase(); // Assuming the Full Name is in the 3rd column
+
+            // Check if the row matches the search query
+            if (fullName.includes(query)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    // ... Your existing code ...
+</script>
+
+
 
