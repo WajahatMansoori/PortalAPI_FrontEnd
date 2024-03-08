@@ -178,11 +178,15 @@
     // When the user clicks the button, open the modal
     function openModal() {
         modal.style.display = 'flex';
+       
     }
 
     // When the user clicks on <span> (x), close the modal
     function closeModal() {
         modal.style.display = 'none';
+        $("#department").val("");
+        $("#userLoginId").val("");
+        $("#fullName").val("");
     }
 
     // When the user clicks anywhere outside of the modal, close it
